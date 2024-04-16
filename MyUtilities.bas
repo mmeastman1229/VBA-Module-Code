@@ -38,6 +38,7 @@ Next Sh
 
 End Sub
 
+
 Sub LeftUpperAlignAllCells(ByVal rng As Range)
 OptimizedMode True
 
@@ -50,40 +51,7 @@ OptimizedMode False
 End Sub
 
 
-Sub CreateThinDividerColumn()
-
-Dim rng             As Range
-Set rng = Selection
-
-OptimizedMode True
-
-With rng
-    .ColumnWidth = 0.2
-    .Interior.Color = 8421504
-End With
-
-OptimizedMode False
-
-End Sub
-
-Sub CreateThinDividerRow()
-
-Dim rng             As Range
-Set rng = Selection
-
-OptimizedMode True
-
-With rng
-    .RowHeight = 2
-    .Interior.Color = 8421504
-End With
-
-OptimizedMode False
-
-End Sub
-
 Sub TransformSelectedCase(ByRef str As String, ByRef rng As Range)
-
 OptimizedMode True
 
 Dim cell As Range
@@ -100,60 +68,35 @@ For Each cell In rng
 Next cell
 
 OptimizedMode False
-
 End Sub
 
-Sub FillColors()
 
+Sub FillInteriorColor(ByVal rngRedValue as Range, ByVal rngGreenValue as Range, _
+ByVal rngBlueValue as Range, byVal rngDestinationCells as Range)
 OptimizedMode True
 
-Dim rngAccessCode                       As Range
-Dim rngDestinationCell                  As Range
 Dim i                                   As Integer
-Dim strAccessCodeRange                  As String
-Dim strDestinationRange                 As String
-Dim strRedRange                         As String
-Dim strGreenRange                       As String
-Dim strBlueRange                        As String
-Dim redRange                            As Range
-Dim greenRange                          As Range
-Dim blueRange                           As Range
-
-
 Dim red                                 As Long
 Dim green                               As Long
 Dim blue                                As Long
 
-'Ranges as Strings for easy changing
-'strAccessCodeRange = "D2:D659"
-strDestinationRange = "H2:H658"
-strRedRange = "E2:E658"
-strGreenRange = "F2:F658"
-strBlueRange = "G2:G658"
-
-Set rngDestinationCell = Range(strDestinationRange)
-Set redRange = Range(strRedRange)
-Set greenRange = Range(strGreenRange)
-Set blueRange = Range(strBlueRange)
-
 For i = 1 To rngDestinationCell.Cells.Count
-     red = redRange(i).Value
-     green = greenRange(i).Value
-     blue = blueRange(i).Value
-     rngDestinationCell(i).Interior.Color = RGB(red, green, blue)
+     red = rngRedValue(i).Value
+     green = rngGreenValue(i).Value
+     blue = rngBlueValue(i).Value
+     rngDestinationCells(i).Interior.Color = RGB(red, green, blue)
 
 Next
 
 OptimizedMode False
-
 End Sub
+
 
 Sub AutoFitSelectedCells(ByVal inputRng)
 
 OptimizedMode True
 
-Dim rng As Range
-
+Dim rng                                 As Range
 Set rng = inputRng
 
 With rng
@@ -1285,3 +1228,12 @@ Sub FormatLongNumbers()
     OptimizedMode False
 
 End Sub
+
+
+Public Sub ChangeFontName(ByRef rng As Range, byRef fontName As String, )
+    
+    With rng
+        rng.Font.Name = fontName
+    End With
+
+End Sub 
