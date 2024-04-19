@@ -26,28 +26,26 @@ Dim Sh                          As Worksheet
 OptimizedMode False
 
 For Each Sh In Application.Worksheets
-    
     With Sh
         ActiveSheet.Range("A1").Select
         .Cells.RowHeight = 15
         .Cells.ColumnWidth = 8.43
         .Cells.Clear
     End With
-
 Next Sh
 
 End Sub
 
 
 Sub LeftUpperAlignAllCells(ByVal rng As Range)
-OptimizedMode True
 
+OptimizedMode True
 With rng
     .HorizontalAlignment = xlLeft
     .VerticalAlignment = xlTop
 End With
-
 OptimizedMode False
+
 End Sub
 
 
@@ -1084,7 +1082,6 @@ Function HexToDecimal(HexColor As String) As Long
     'Remove the # character if it exists
     HexColor = Replace(HexColor, "#", "")
     HexColor = Right(HexColor, 2) & Mid(HexColor, 3, 2) & Left(HexColor, 2)
-    
     HexToDecimal = Val("&H" & HexColor)
 
 End Function
@@ -1112,30 +1109,29 @@ Sub AddValidation()
 
 End Sub
 
-Sub ReplaceSpaceWithUnderscore()
+Sub ReplaceSpaceWithUnderscore(ByRef rng As Range)
 
-    Dim rng As Range
+    OptimizedMode True
     Dim cell As Range
-    
-    Set rng = Selection
     
     For Each cell In rng
         cell.Value = Replace(cell.Value, " ", "_")
     Next cell
+    OptimizedMode False
 
 End Sub
 
 
-Sub ReplaceUnderscoreWithSpace()
+Sub ReplaceUnderscoreWithSpace(ByRef rng As Range)
 
+    OptimizedMode True
     Dim rng As Range
     Dim cell As Range
-    
-    Set rng = Selection
     
     For Each cell In rng
         cell.Value = Replace(cell.Value, "_", " ")
     Next cell
+    OptimizedMode False
 
 End Sub
 
@@ -1146,7 +1142,6 @@ Public Function GetHexBGColor()
     HexColor = Right("000000" & Hex(ActiveCell.Interior.Color), 6)
     'Reverse the Hex code
     HexColor = Right(HexColor, 2) & Mid(HexColor, 3, 2) & Left(HexColor, 2)
-    
     GetHexBGColor = "#" & HexColor
     
 End Function
@@ -1158,7 +1153,6 @@ Public Function GetHexFontColor()
     HexColor = Right("000000" & Hex(ActiveCell.Font.Color), 6)
     'Reverse the Hex code
     HexColor = Right(HexColor, 2) & Mid(HexColor, 3, 2) & Left(HexColor, 2)
-    
     GetHexFontColor = "#" & HexColor
     
 End Function
@@ -1176,14 +1170,11 @@ Public Sub ShowCellInspector()
     frmCellInfo.Show
 End Sub
 
-Public Sub FillWithStyle()
+Public Sub FillWithGoodAndBadStyle(ByRef rng As Range)
 
-Dim ws              As Worksheet
-Dim rng             As Range
-Dim cell            As Range
+Dim cell                                            As Range
 
 Set ws = ActiveSheet
-Set rng = Selection
 
     For Each cell In rng
         If cell.Value = "PASS" Then
@@ -1193,14 +1184,14 @@ Set rng = Selection
         End If
     Next cell
 
-
 End Sub
 
 Sub SelectAllRows()
-    Dim wb As Workbook
-    Dim ws As Worksheet
-    Dim finalRow As Long
-    Dim finalColumn As Long
+
+    Dim wb                                          As Workbook
+    Dim ws                                          As Worksheet
+    Dim finalRow                                    As Long
+    Dim finalColumn                                 As Long
 
     Set wb = ActiveWorkbook
     Set ws = ActiveSheet
@@ -1211,29 +1202,54 @@ Sub SelectAllRows()
     
 End Sub
 
-Sub FormatLongNumbers()
+
+Sub FormatValues(ByRef rng as Range, formatString as String)
 
     OptimizedMode True
-    
-    Dim rng As Range
-    Dim format As String
-    
-    format = "0"
-    Set rng = Selection
-    
     With rng
-        .NumberFormat = format
+        .NumberFormat = formatString
     End With
-    
     OptimizedMode False
 
 End Sub
 
 
-Public Sub ChangeFontName(ByRef rng As Range, byRef fontName As String, )
+Public Sub ChangeFontName(ByRef rng As Range, fontName As String)
     
     With rng
         rng.Font.Name = fontName
     End With
 
-End Sub 
+End Sub
+
+
+Public Sub ChangeFontSize(ByRef rng As Range, fontSize As Integer)
+    
+    With rng
+        rng.Font.Size = fontSize
+    End With
+
+End Sub
+
+Sub GetFontPropertiesOfCell(ByRef rng As Range)
+    
+    With rng.Font
+        Debug.Print "Font Name: " & .Name
+        Debug.Print "Font Size: " & .Size
+        Debug.Print "Font Color: " & .Color
+        Debug.Print "Bold: " & .Bold
+        Debug.Print "Italic: " & .Italic
+        Debug.Print "Underline: " & .Underline
+        Debug.Print "Strikethrough: " & .Strikethrough
+        Debug.Print "Superscript: " & .Superscript
+        Debug.Print "Subscript: " & .Subscript
+        Debug.Print "ThemeColor: " & .ThemeColor
+        Debug.Print "TintAndShade: " & .TintAndShade
+    End With
+
+End Sub
+
+Sub GetBorderPropertiesOfCell(ByRef rng as Range)
+
+
+End Sub
